@@ -17,6 +17,10 @@ public:
     wxBoxSizer *sizer;
     wxGridSizer *fgs;
     wxTextCtrl *display;
+    wxGridSizer *fgs_2;
+    //wxBoxSizer *sizer_2;
+
+
 
 };
 
