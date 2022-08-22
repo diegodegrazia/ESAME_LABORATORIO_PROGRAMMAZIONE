@@ -14,7 +14,7 @@ public:
 
     virtual void subscribe(Observer *ob) = 0;
 
-    virtual void unsubscribe(Observer *ob) = 0;
+    virtual void unsubscribe() = 0;
 
     virtual void notify() = 0;
 };

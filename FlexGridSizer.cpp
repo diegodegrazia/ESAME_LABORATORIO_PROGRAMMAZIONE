@@ -3,7 +3,8 @@
 //
 
 #include "FlexGridSizer.h"
-#include <string.h>
+#include "CellSubject.h"
+#include "CellObserver.h"
 
 static int rows = 10;
 static int columns = 8;
@@ -21,67 +22,75 @@ FlexGridSizer::FlexGridSizer(const wxString &title)
 
     fgs_2 = new wxFlexGridSizer(1, columns, -1, -1);
 
-    auto max = new wxTextCtrl(this, -1, wxT("Max"), wxPoint(),
-                              wxSize(-1, 40), wxTE_READONLY | wxTE_CENTER);
-    auto min = new wxTextCtrl(this, -1, wxT("Min"), wxPoint(),
-                              wxSize(-1, 40), wxTE_READONLY | wxTE_CENTER);
-    auto mean = new wxTextCtrl(this, -1, wxT("Mean"), wxPoint(),
-                               wxSize(-1, 40), wxTE_READONLY | wxTE_CENTER);
-    auto sum = new wxTextCtrl(this, -1, wxT("Sum"), wxPoint(),
-                              wxSize(-1, 40), wxTE_READONLY | wxTE_CENTER);
+    auto max = new CellObserver(Operation::MAX, this, -1, wxT(""), wxPoint(),
+                                wxSize(-1, 40), wxTE_READONLY | wxTE_CENTER);
+    auto min = new CellObserver(Operation::MIN, this, -1, wxT(""), wxPoint(),
+                                wxSize(-1, 40), wxTE_READONLY | wxTE_CENTER);
+    auto mean = new CellObserver(Operation::MEAN, this, -1, wxT(""), wxPoint(),
+                                 wxSize(-1, 40), wxTE_READONLY | wxTE_CENTER);
+    auto sum = new CellObserver(Operation::SUM, this, -1, wxT(""), wxPoint(),
+                                wxSize(-1, 40), wxTE_READONLY | wxTE_CENTER);
 
     for (int j = 0; j < columns; j++) {
         switch (j) {
-            case 0:
+            case 1:
                 fgs_2->Add(max, 0, wxEXPAND);
                 break;
-            case 2:
+            case 3:
                 fgs_2->Add(min, 0, wxEXPAND);
                 break;
-            case 4:
+            case 5:
                 fgs_2->Add(mean, 0, wxEXPAND);
                 break;
-            case 6:
+            case 7:
                 fgs_2->Add(sum, 0, wxEXPAND);
                 break;
             default:
-                auto tmp = new wxTextCtrl(this, -1, wxT(""), wxPoint(),
-                                          wxSize(-1, 40), wxTE_CENTER);
+                auto tmp = new wxTextCtrl(this, -1, wxT("operation->"), wxPoint(),
+                                          wxSize(-1, 40), wxTE_CENTER | wxTE_READONLY);
                 fgs_2->Add(tmp, 0, wxEXPAND);
 
         }
     }
 
-    /*for (int j = 0; j < columns; j++) {
-        auto tmp = new wxTextCtrl(this, -1, wxT(""), wxPoint(),
-                                  wxSize(-1, 40), wxTE_CENTER);
-        switch(j) {
-            case 0: tmp->SetValue("Max");
-                break;
-            case 2: tmp->SetValue("Min");
-                break;
-            case 4: tmp->SetValue("Mean");
-                break;
-            case 6: tmp->SetValue("Sum");
-                break;
-            default: tmp->SetValue("");
-        }
-        fgs_2->Add(tmp, 0, wxEXPAND);
-    } */
-
+    int id = 0;
     for (int i = 0; i < rows + 1; i++) {
         for (int j = 0; j < columns; j++) {
-            auto tmp = new wxTextCtrl(this, -1, wxT(""), wxPoint(),
-                                      wxSize(-1, 40), wxTE_CENTER);
             if (j == 0 && i != 0) {
-                //TODO settare colore celle e immodificabile prima riga/colonna.
+                auto tmp = new CellSubject(this, -1, wxT(""), wxPoint(),
+                                           wxSize(-1, 40), wxTE_CENTER | wxTE_READONLY);
                 tmp->SetValue(std::to_string(i));
-                //tmp->SetDefaultStyle(wxTextAttr(wxNullColour, *wxLIGHT_GREY));
+                fgs->Add(tmp, 0, wxEXPAND);
             } else if (i == 0 && j != 0) {
+                auto tmp = new CellSubject(this, -1, wxT(""), wxPoint(),
+                                           wxSize(-1, 40), wxTE_CENTER | wxTE_READONLY);
                 tmp->SetValue(char(64 + j));
-                //tmp->SetDefaultStyle(wxTextAttr(wxNullColour, *wx));
+                fgs->Add(tmp, 0, wxEXPAND);
+            } else {
+                auto tmp = new CellSubject(this, -1, wxT(""), wxPoint(),
+                                           wxSize(-1, 40), wxTE_CENTER);
+                fgs->Add(tmp, 0, wxEXPAND);
+                switch (j) {
+                    case 1:
+                        tmp->subscribe(max);
+                        max->subscribe_subject(tmp);
+                        break;
+                    case 3:
+                        tmp->subscribe(min);
+                        max->subscribe_subject(tmp);
+                        break;
+                    case 5:
+                        tmp->subscribe(mean);
+                        max->subscribe_subject(tmp);
+                        break;
+                    case 7:
+                        tmp->subscribe(sum);
+                        max->subscribe_subject(tmp);
+                        break;
+                    default:
+                        break;
+                }
             }
-            fgs->Add(tmp, 0, wxEXPAND);
         }
     }
 
