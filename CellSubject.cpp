@@ -16,20 +16,10 @@ void CellSubject::notify() {
     obs->update();
 }
 
-
-double CellSubject::getNumber() const {
-    return number;
-}
-
-void CellSubject::setNumber(double n) {
-    number = n;
-}
-
 void CellSubject::OnEnterButton(wxCommandEvent &event) {
-
     notify();
 }
 
 wxBEGIN_EVENT_TABLE(CellSubject, wxTextCtrl)
-                EVT_BUTTON(0, CellSubject::OnEnterButton)
+                EVT_TEXT_ENTER(0, CellSubject::OnEnterButton)
 wxEND_EVENT_TABLE()

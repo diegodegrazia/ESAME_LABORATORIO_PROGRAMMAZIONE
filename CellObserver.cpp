@@ -6,33 +6,52 @@
 
 void CellObserver::update() {
     if (opr == Operation::MAX) {
+        wxString temp = (*subjects.begin())->GetValue();
         double app;
-        double max = (*subjects.begin())->GetValue().ToDouble(&app);
+        temp.ToDouble(&app);
+        double max = app;
         for (auto itr = subjects.begin(); itr != subjects.end(); itr++) {
-            if ((*itr)->GetValue().ToDouble(&app) > max)
+            temp = (*itr)->GetValue();
+            temp.ToDouble(&app);
+            if (app > max)
                 max = app;
         }
         wxTextCtrl::SetValue(std::to_string(max));
     } else if (opr == Operation::MIN) {
+        wxString temp = (*subjects.begin())->GetValue();
         double app;
-        double min = (*subjects.begin())->GetValue().ToDouble(&app);
+        temp.ToDouble(&app);
+        double min = app;
         for (auto itr = subjects.begin(); itr != subjects.end(); itr++) {
-            if ((*itr)->GetValue().ToDouble(&app) < min)
+            temp = (*itr)->GetValue();
+            temp.ToDouble(&app);
+            if (app < min)
                 min = app;
         }
         wxTextCtrl::SetValue(std::to_string(min));
     } else if (opr == Operation::MEAN) {
+        wxString temp;
         double app;
         double mean = 0;
-        for (auto itr = subjects.begin(); itr != subjects.end(); itr++)
-            mean = mean + (*itr)->GetValue().ToDouble(&app);
-        mean = mean / subjects.size();
+        int count = 0;
+        for (auto itr = subjects.begin(); itr != subjects.end(); itr++) {
+            temp = (*itr)->GetValue();
+            if (temp.ToDouble(&app)) {
+                mean = mean + app;
+                count++;
+            }
+        }
+        mean = mean / count;
         wxTextCtrl::SetValue(std::to_string(mean));
     } else if (opr == Operation::SUM) {
+        wxString temp;
         double app;
         double sum = 0;
-        for (auto itr = subjects.begin(); itr != subjects.end(); itr++)
-            sum = sum + (*itr)->GetValue().ToDouble(&app);
+        for (auto itr = subjects.begin(); itr != subjects.end(); itr++) {
+            temp = (*itr)->GetValue();
+            if (temp.ToDouble(&app))
+                sum = sum + app;
+        }
         wxTextCtrl::SetValue(std::to_string(sum));
 
     }

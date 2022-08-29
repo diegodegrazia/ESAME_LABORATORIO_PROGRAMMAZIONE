@@ -19,10 +19,8 @@ public:
                 long style = 0,
                 const wxValidator &validator = wxDefaultValidator,
                 const wxString &name = wxTextCtrlNameStr,
-                Observer *ob = nullptr,
-                double n = 0) : wxTextCtrl(parent, id, value, pos, size, style, validator, name) {
+                Observer *ob = nullptr) : wxTextCtrl(parent, id, value, pos, size, style, validator, name) {
         obs = ob;
-        number = n;
     }
 
     void subscribe(Observer *ob) override;
@@ -31,15 +29,10 @@ public:
 
     void notify() override;
 
-    double getNumber() const;
-
-    void setNumber(double n);
-
     void OnEnterButton(wxCommandEvent &event);
 
 protected:
     Observer *obs;
-    double number;
 wxDECLARE_EVENT_TABLE();
 };
 
