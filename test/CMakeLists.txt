@@ -1,0 +1,10 @@
+cmake_minimum_required(VERSION 3.21)
+
+add_subdirectory(./lib/googletest)
+set(gtest_SOURCE_DIR, ./lib/googletest/)
+include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
+find_package(wxWidgets REQUIRED COMPONENTS net core base)
+include(${wxWidgets_USE_FILE})
+set(TEST_SOURCE_FILES TestMain.cpp ObserverFixture.cpp TestProject.cpp TestProject.h)
+add_executable(runTests ${TEST_SOURCE_FILES})
+target_link_libraries(runTests gtest gtest_main ${wxWidgets_LIBRARIES} core)

@@ -9,7 +9,13 @@ void CellSubject::subscribe(Observer *ob) {
 }
 
 void CellSubject::unsubscribe() {
+    obs->unsubscribe_subject(this);
+    notify();
     free(obs);
+}
+
+wxString CellSubject::getValue() {
+    return wxTextCtrl::GetValue();
 }
 
 void CellSubject::notify() {

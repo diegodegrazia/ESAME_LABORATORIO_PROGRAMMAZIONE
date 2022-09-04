@@ -31,14 +31,15 @@ public:
 
     void update() override;
 
-    void subscribe_subject(CellSubject *cs);
+    void subscribe_subject(Subject *s) override;
+
+    void unsubscribe_subject(Subject *s) override;
 
 
 protected:
-    std::list<CellSubject *> subjects;
+    std::list<Subject *> subjects;
     Operation opr;
 
 };
-
 
 #endif //ESAME_LABORATORIO_PROGRAMMAZIONE_CELLOBSERVER_H

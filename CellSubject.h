@@ -6,8 +6,8 @@
 #define ESAME_LABORATORIO_PROGRAMMAZIONE_CELLSUBJECT_H
 
 
-#include <wx/wx.h>
 #include "Subject.h"
+#include "Observer.h"
 
 class CellSubject : public wxTextCtrl, public Subject {
 public:
@@ -23,9 +23,11 @@ public:
         obs = ob;
     }
 
-    void subscribe(Observer *ob) override;
+    void subscribe(Observer *ob);
 
-    void unsubscribe() override;
+    void unsubscribe();
+
+    wxString getValue() override;
 
     void notify() override;
 

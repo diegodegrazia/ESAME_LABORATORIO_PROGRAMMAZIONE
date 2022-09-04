@@ -6,24 +6,24 @@
 
 void CellObserver::update() {
     if (opr == Operation::MAX) {
-        wxString temp = (*subjects.begin())->GetValue();
+        wxString temp = (*subjects.begin())->getValue();
         double app;
         temp.ToDouble(&app);
         double max = app;
         for (auto itr = subjects.begin(); itr != subjects.end(); itr++) {
-            temp = (*itr)->GetValue();
+            temp = (*itr)->getValue();
             temp.ToDouble(&app);
             if (app > max)
                 max = app;
         }
         wxTextCtrl::SetValue(std::to_string(max));
     } else if (opr == Operation::MIN) {
-        wxString temp = (*subjects.begin())->GetValue();
+        wxString temp = (*subjects.begin())->getValue();
         double app;
         temp.ToDouble(&app);
         double min = app;
         for (auto itr = subjects.begin(); itr != subjects.end(); itr++) {
-            temp = (*itr)->GetValue();
+            temp = (*itr)->getValue();
             temp.ToDouble(&app);
             if (app < min)
                 min = app;
@@ -35,7 +35,7 @@ void CellObserver::update() {
         double mean = 0;
         int count = 0;
         for (auto itr = subjects.begin(); itr != subjects.end(); itr++) {
-            temp = (*itr)->GetValue();
+            temp = (*itr)->getValue();
             if (temp.ToDouble(&app)) {
                 mean = mean + app;
                 count++;
@@ -48,7 +48,7 @@ void CellObserver::update() {
         double app;
         double sum = 0;
         for (auto itr = subjects.begin(); itr != subjects.end(); itr++) {
-            temp = (*itr)->GetValue();
+            temp = (*itr)->getValue();
             if (temp.ToDouble(&app))
                 sum = sum + app;
         }
@@ -58,6 +58,10 @@ void CellObserver::update() {
 
 }
 
-void CellObserver::subscribe_subject(CellSubject *cs) {
-    subjects.push_back(cs);
+void CellObserver::subscribe_subject(Subject *s) {
+    subjects.push_back(s);
+}
+
+void CellObserver::unsubscribe_subject(Subject *s) {
+    subjects.remove(s);
 }

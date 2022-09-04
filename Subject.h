@@ -5,16 +5,13 @@
 #ifndef ESAME_LABORATORIO_PROGRAMMAZIONE_SUBJECT_H
 #define ESAME_LABORATORIO_PROGRAMMAZIONE_SUBJECT_H
 
-
-#include "Observer.h"
+#include <wx/wx.h>
 
 class Subject {
 public:
     virtual ~Subject() = default;
 
-    virtual void subscribe(Observer *ob) = 0;
-
-    virtual void unsubscribe() = 0;
+    virtual wxString getValue() = 0;
 
     virtual void notify() = 0;
 };
