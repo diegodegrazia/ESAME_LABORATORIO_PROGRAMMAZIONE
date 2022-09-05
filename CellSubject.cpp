@@ -6,19 +6,21 @@
 
 void CellSubject::subscribe(Observer *ob) {
     obs = ob;
+    obs->subscribe_subject(this);
+
 }
 
 void CellSubject::unsubscribe() {
     obs->unsubscribe_subject(this);
     notify();
-    free(obs);
+    obs = nullptr;
 }
 
-wxString CellSubject::getValue() {
+wxString CellSubject::getValue() const {
     return wxTextCtrl::GetValue();
 }
 
-void CellSubject::notify() {
+void CellSubject::notify() const {
     obs->update();
 }
 

@@ -85,19 +85,15 @@ FlexGridSizer::FlexGridSizer(const wxString &title)
                     switch (j) {
                         case 1:
                             tmp->subscribe(max);
-                            max->subscribe_subject(tmp);
                             break;
                         case 3:
                             tmp->subscribe(min);
-                            min->subscribe_subject(tmp);
                             break;
                         case 5:
                             tmp->subscribe(mean);
-                            mean->subscribe_subject(tmp);
                             break;
                         case 7:
                             tmp->subscribe(sum);
-                            sum->subscribe_subject(tmp);
                             break;
                         default:
                             break;

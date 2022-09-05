@@ -11,15 +11,15 @@
 
 class CellSubject : public wxTextCtrl, public Subject {
 public:
-    CellSubject(wxWindow *parent,
-                wxWindowID id,
-                const wxString &value = wxEmptyString,
-                const wxPoint &pos = wxDefaultPosition,
-                const wxSize &size = wxDefaultSize,
-                long style = 0,
-                const wxValidator &validator = wxDefaultValidator,
-                const wxString &name = wxTextCtrlNameStr,
-                Observer *ob = nullptr) : wxTextCtrl(parent, id, value, pos, size, style, validator, name) {
+    explicit CellSubject(wxWindow *parent,
+                         wxWindowID id,
+                         const wxString &value = wxEmptyString,
+                         const wxPoint &pos = wxDefaultPosition,
+                         const wxSize &size = wxDefaultSize,
+                         long style = 0,
+                         const wxValidator &validator = wxDefaultValidator,
+                         const wxString &name = wxTextCtrlNameStr,
+                         Observer *ob = nullptr) : wxTextCtrl(parent, id, value, pos, size, style, validator, name) {
         obs = ob;
     }
 
@@ -27,9 +27,9 @@ public:
 
     void unsubscribe();
 
-    wxString getValue() override;
+    wxString getValue() const override;
 
-    void notify() override;
+    void notify() const override;
 
     void OnEnterButton(wxCommandEvent &event);
 

@@ -9,7 +9,7 @@
 
 class FlexGridSizer : public wxFrame {
 public:
-    FlexGridSizer(const wxString &title);
+    explicit FlexGridSizer(const wxString &title);
 
     wxMenuBar *menubar;
     wxMenu *file;

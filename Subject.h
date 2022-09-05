@@ -11,9 +11,9 @@ class Subject {
 public:
     virtual ~Subject() = default;
 
-    virtual wxString getValue() = 0;
+    virtual wxString getValue() const = 0;
 
-    virtual void notify() = 0;
+    virtual void notify() const = 0;
 };
 
 
