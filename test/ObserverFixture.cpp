@@ -136,10 +136,10 @@ TEST_F(ObserverFixture, Unsubscribe) {
     cs2_sum->SetValue("5");
     cs3_sum->SetValue("f");
 
-    cs2_max->unsubscribe();
-    cs2_min->unsubscribe();
-    cs2_mean->unsubscribe();
-    cs2_sum->unsubscribe();
+    cs3_max->notify();
+    cs3_min->notify();
+    cs3_mean->notify();
+    cs3_sum->notify();
 
     wxString string_max = max->GetValue();
     double app_max;
@@ -157,9 +157,35 @@ TEST_F(ObserverFixture, Unsubscribe) {
     double app_sum;
     string_sum.ToDouble(&app_sum);
 
-    EXPECT_EQ(1, app_max);
-    EXPECT_EQ(5, app_min);
-    EXPECT_EQ(1, app_mean);
-    EXPECT_EQ(1, app_sum);
+    EXPECT_EQ(5, app_max); //controlli prima dell'unsubscribe
+    EXPECT_EQ(1, app_min);
+    EXPECT_EQ(3, app_mean);
+    EXPECT_EQ(6, app_sum);
+
+    cs2_max->unsubscribe();
+    cs2_min->unsubscribe();
+    cs2_mean->unsubscribe();
+    cs2_sum->unsubscribe();
+
+    wxString string_max_2 = max->GetValue();
+    double app_max_2;
+    string_max_2.ToDouble(&app_max_2);
+
+    wxString string_min_2 = min->GetValue();
+    double app_min_2;
+    string_min_2.ToDouble(&app_min_2);
+
+    wxString string_mean_2 = mean->GetValue();
+    double app_mean_2;
+    string_mean_2.ToDouble(&app_mean_2);
+
+    wxString string_sum_2 = sum->GetValue();
+    double app_sum_2;
+    string_sum_2.ToDouble(&app_sum_2);
+
+    EXPECT_EQ(1, app_max_2); //controlli dopo l'unsubscribe
+    EXPECT_EQ(5, app_min_2);
+    EXPECT_EQ(1, app_mean_2);
+    EXPECT_EQ(1, app_sum_2);
 
 }
